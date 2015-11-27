@@ -104,22 +104,9 @@ void GameScene::update(float dt)
         }
     }
     
-    Rect playerRect = Rect(
-                           player->getPosition().x - (player->getContentSize().width/2),
-                           player->getPosition().y - (player->getContentSize().height/2),
-                           player->getContentSize().width,
-                           player->getContentSize().height);
-    
     for (int i = 0; i < asteroids.size(); i++)
     {
-        
-        Rect asteroidRect = Rect(
-                                 asteroids[i]->getPosition().x - (asteroids[i]->getContentSize().width/2),
-                                 asteroids[i]->getPosition().y - (asteroids[i]->getContentSize().height/2),
-                                 asteroids[i]->getContentSize().width,
-                                 asteroids[i]->getContentSize().height);
-        
-        if (playerRect.intersectsRect(asteroidRect))
+        if (player->getBoundingBox().intersectsRect(asteroids[i]->getBoundingBox()))
         {
             this->unscheduleUpdate();
             this->unschedule(schedule_selector(GameScene::generateAsteroid));
@@ -148,23 +135,10 @@ void GameScene::update(float dt)
             bullets.erase(bullets.begin() + i);
         }
         else{
-            
-            Rect bulletRect = Rect(
-                                   bullets[i]->getPosition().x - (bullets[i]->getContentSize().width/2),
-                                   bullets[i]->getPosition().y - (bullets[i]->getContentSize().height/2),
-                                   bullets[i]->getContentSize().width,
-                                   bullets[i]->getContentSize().height);
-            
+
             for (int j = 0; j < asteroids.size(); j++)
             {
-                
-                Rect asteroidRect = Rect(
-                                         asteroids[j]->getPosition().x - (asteroids[j]->getContentSize().width/2),
-                                         asteroids[j]->getPosition().y - (asteroids[j]->getContentSize().height/2),
-                                         asteroids[j]->getContentSize().width,
-                                         asteroids[j]->getContentSize().height);
-                
-                if (bulletRect.intersectsRect(asteroidRect))
+                if (bullets[i]->getBoundingBox().intersectsRect(asteroids[j]->getBoundingBox()))
                 {
                     this->removeChild(bullets[i]);
                     bullets.erase(bullets.begin() + i);
@@ -186,13 +160,7 @@ void GameScene::pauseButton(cocos2d::Ref* pSender){
 
 bool GameScene::onTouchBegan(cocos2d::Touch *touch, cocos2d::Event * event)
 {
-    Rect playerRect = Rect(
-                           player->getPosition().x - (player->getContentSize().width/2),
-                           player->getPosition().y - (player->getContentSize().height/2),
-                           player->getContentSize().width,
-                           player->getContentSize().height);
-    
-    return playerRect.containsPoint(convertTouchToNodeSpace(touch));
+    return player->getBoundingBox().containsPoint(convertTouchToNodeSpace(touch));
 }
 
 void GameScene::onTouchMoved(cocos2d::Touch *touch,cocos2d::Event * event)
