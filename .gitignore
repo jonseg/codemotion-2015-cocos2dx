@@ -1,0 +1,5 @@
+/bin
+/cocos2d
+/proj.android-studio/app/obj
+/proj.android-studio/app/assets
+libcocos2dcpp.so
