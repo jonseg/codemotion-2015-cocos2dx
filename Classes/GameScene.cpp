@@ -110,6 +110,7 @@ void GameScene::update(float dt)
         {
             this->unscheduleUpdate();
             this->unschedule(schedule_selector(GameScene::generateAsteroid));
+            this->unschedule(schedule_selector(GameScene::generateBullet));
             this->removeChild(asteroids[i]);
             asteroids.erase(asteroids.begin() + i);
             this->removeChild(player);
